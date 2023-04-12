@@ -3,11 +3,12 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         String[] products = {"Хлеб", "Арбуз", "Молоко"};
         int[] prices = {100, 200, 300};
-        File file = new File("basket.txt");
+
+        File file = new File("basket.bin");
         Basket basket = new Basket(prices, products, file);
         Scanner scanner = new Scanner(System.in);
 
@@ -41,7 +42,7 @@ public class Main {
                 }
 
                 basket.addToCart(Integer.parseInt(parts[0]) - 1, Integer.parseInt(parts[1]));
-                basket.saveTxt(file);
+                basket.saveBin(file);
 
             } catch (NumberFormatException exception) {
                 System.out.println("Введены некорректные данные! Попробуйте еще раз");
