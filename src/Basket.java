@@ -1,7 +1,6 @@
-import javax.swing.*;
+
 import java.io.*;
 
-import static java.awt.Color.red;
 
 public class Basket {
     protected int[] prices;
@@ -25,9 +24,6 @@ public class Basket {
         }
     }
 
-//    public int getLength() {
-//        return this.basket.length;
-//    }
 
     public void showProducts() {
         System.out.println("Список возможных товаров для покупки");
@@ -35,9 +31,11 @@ public class Basket {
             System.out.println(this.products[i] + " " + this.prices[i] + " руб/шт.");
         }
     }
+
     public int getLength() {
         return this.basket.length;
     }
+
     public void addToCart(int productNum, int amount) {
         this.basket[productNum] += amount;
     }

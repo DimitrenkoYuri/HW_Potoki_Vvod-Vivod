@@ -12,7 +12,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
 
-
         while (true) {
             basket.showProducts();
             System.out.println("Введите номер товара и колличество, или введите end");
