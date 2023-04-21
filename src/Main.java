@@ -3,54 +3,38 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+    static Basket basket;
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         String[] products = {"Хлеб", "Арбуз", "Молоко"};
         int[] prices = {100, 200, 300};
-
+        int[] amount = new int[products.length];
         File file = new File("basket.bin");
-        Basket basket = new Basket(prices, products, file);
+        if (file.exists()) {
+            basket = Basket.loadFromBinFile(file);
+        } else {
+            basket = new Basket(products, prices);
+        }
+
+        System.out.println("Список возможных товаров для покупки");
+        for (int i = 0; i < products.length; i++) {
+            System.out.println(i + 1 + "." + " " + products[i] + " " + prices[i] + " руб/шт");
+        }
+
         Scanner scanner = new Scanner(System.in);
 
-
-
         while (true) {
-            basket.showProducts();
-            System.out.println("Введите номер товара и колличество, или введите end");
+            System.out.println("Выберите товар и количество или введите `end`");
             String input = scanner.nextLine();
-
             if ("end".equals(input)) {
                 break;
             }
-
             String[] parts = input.split(" ");
-            if (parts.length != 2) {
-                System.out.println("Неверный ввод! Попробуйте еще раз.");
-                continue;
-            }
-
-            try {
-                if ((Integer.parseInt(parts[0]) > basket.getLength())
-                        | (Integer.parseInt(parts[0]) < 1)) {
-                    System.out.println("Вы ввели не существующий товар! Попробуйте еще раз.");
-                    continue;
-                }
-
-                if (Integer.parseInt(parts[1]) < 0) {
-                    System.out.println("Вы ввели отрицательное колличество товаров! Попробуйте еще раз.");
-                    continue;
-                }
-
-                basket.addToCart(Integer.parseInt(parts[0]) - 1, Integer.parseInt(parts[1]));
-                basket.saveBin(file);
-
-            } catch (NumberFormatException exception) {
-                System.out.println("Введены некорректные данные! Попробуйте еще раз");
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            basket.printCart();
+            int productNumber = Integer.parseInt(parts[0]) - 1;
+            int productCount = Integer.parseInt(parts[1]);
+            basket.addToCart(productNumber, productCount);
+            basket.saveBin(file);
         }
+        basket.printCart();
     }
 }
